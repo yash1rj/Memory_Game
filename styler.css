@@ -1,0 +1,75 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	/* The box-sizing: border-box property includes padding and border values into element’s total width and height, so we can skip the math. */
+}
+
+body {
+	height: 100vh;
+	display: flex;
+	background: #060AB2;
+}
+
+.memory-game {
+	width: 640px;
+	height: 640px;
+	margin: auto;
+	/* By setting display: flex to the body and margin: auto to the .memory-game container, it will be centered both vertically and horizontally. */
+	display: flex;
+	flex-wrap: wrap;
+	/* By setting flex-wrap to wrap, flex-items wrap along multiple lines, accordingly to their size. */
+	perspective: 1000px;
+}
+
+.memory-card {
+	width: calc(25% - 10px);
+	height: calc(33.333% - 10px);
+	/* 3 rows 4 cards each */
+	margin: 5px;
+	/* To position .memory-card children, let’s add position: relative so we can position the children absolutely, relative to it. */
+	position: relative;
+	transform: scale(1);
+	box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+	transform-style: preserve-3d; /* Indicates that the children of the element should be positioned in the 3D-space. */
+	/* To position them in the 3D space created in the parent, instead of flattening it to the z = 0 plane */
+	/* A transition has to be applied to the transform property to produce the movement effect */
+	transition: transform .5s;
+}
+
+.front-face,
+.back-face {
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	position: absolute;
+	/* The property position: absolute set to both front-face and back-face, will remove the elements from the original position, and stack them on top of each other. */
+	border-radius: 5px;
+	background: #1C7CCC;
+	/* Every element has a back face, which is a mirror image of its front face. The property backface-visibility defaults to visible, so when we flip the card, what we get is the JS badge back face. */
+	backface-visibility: hidden;
+	/* To reveal the image underneath it, let’s apply backface-visibility: hidden to .front-face and .back-face. */
+}
+
+/* Let’s also add a click effect. The :active pseudo class will be triggered every time the element gets clicked. It will apply a .2s transition to its size: */
+.memory-card:active {
+	transform: scale(0.97);
+	transition: transform .2s;
+}
+
+.memory-card.flip {
+	transform: rotateY(180deg);
+}
+
+.front-face {
+	transform: rotateY(180deg);
+}
+
+.restart-btn {
+    width: 110px;
+    height: 40px;
+    position: fixed;
+    bottom: 48px;
+    right: 45vw;
+	background: red;
+}
